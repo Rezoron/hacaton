@@ -30,10 +30,10 @@ async def init_file(file_name_data: str, size):
 def detector_of_details(seze):
     levels = []
     if seze > 1000:
-        levels.append([50, 1])
+        levels.append([10, 1])
 
-    if seze > 6000:
-        levels.append([90, 6])
+    # if seze > 6000:
+    #     levels.append([90, 6])
 
     return levels
 
@@ -49,7 +49,6 @@ def split_image(img, num_squares_per_side, path_level):
 
     square_side = min(img_width, img_height) // num_squares_per_side
 
-    index = 0
     for row in range(num_squares_per_side):
         for col in range(num_squares_per_side):
             # Вычисляем координаты для обрезки
@@ -66,8 +65,8 @@ def split_image(img, num_squares_per_side, path_level):
 
             # Обрезаем изображение и добавляем в список частей
             part = img.crop(left, top, right, bottom)
-            index += 1
+        
             part.write_to_file(os.path.join(
-                path_level, f"part_{index}.jpeg"), strip=True)
+                path_level, f"part_{row}{col}.jpeg"), strip=True)
             print(os.path.join(
-                path_level, f"part_{index}.webp"))
+                path_level, f"part_{row}{col}.jpeg"))
