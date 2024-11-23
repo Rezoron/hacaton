@@ -26,8 +26,10 @@ async def init_file(file_name_data: str, size):
         # convert_tiff_to_webp(path_upload, path_compress)          
         # img = Image.open(path_compress)
         path_dir = os.path.join(path_dir_base, str(count))
+        
         if not os.path.isdir(path_dir):
             os.mkdir(path_dir)
+
         split_image(img, count, path_dir)
 
     # path_level = os.path.join(os.path.dirname(png_file_path), str(count), path_level) 
