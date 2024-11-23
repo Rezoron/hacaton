@@ -22,7 +22,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     with open(f"uploads/{file_name}/{file.filename}", "wb") as f:
         f.write(await file.read())
         
-    asyncio.create_task(init_file(file_name_data, file.size,))
+    asyncio.create_task(init_file(file_name_data, file.size))
     
     return {"filename": file.filename}
 
