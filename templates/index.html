@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная</title>
+    </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body class="light-theme">
+<!-- Верхнее меню -->
+<header>
+    <div class="logo">WhiteHeart</div>
+    <div class="menu">
+        <a href="/archive"><i class="fas fa-home"></i>Архив</a>
+        <a href="/"><i class="fas fa-upload"></i>Загрузить</a>
+        <a href="/about"><i class="fas fa-info-circle"></i>О нас</a>
+        <button id="theme-toggle" style="z-index: 999;">Сменить тему</button>
+    </div>
+</header>
+
+<!-- Основной контент -->
+<div class="container">
+    <h2>Отправить изображение</h2>
+    <form id="image-form" enctype="multipart/form-data" method="POST">
+        <label class="file-upload" for="fileInput">Выберите файл</label>
+    <input type="file" id="fileInput" name="image_da" accept="image/*">
+        <div id="progress">
+            <div id="progressBar"></div>
+        </div>
+        <div id="remainingTime"></div>
+      
+        <br>
+        <button type="submit">Отправить</button>
+    </form>
+    
+    <div id="message"></div>
+</div>
+<script>
+    const button = document.getElementById('theme-toggle');
+    button.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        document.body.classList.toggle('light-theme');
+    });
+</script>
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const progressBar = document.getElementById('progressBar');
+    const progress = document.getElementById('progress');
+    const remainingTimeDisplay = document.getElementById('remainingTime');
+    const preview = document.getElementById('preview');
+
+    fileInput.addEventListener('change', event => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            progress.style.display = 'block';
+            const total = file.size;
+            let startTime = null;
+
+            reader.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    const loaded = e.loaded;
+                    const percentage = (loaded / total) * 100;
+                    progressBar.style.width = percentage + '%';
+
+                    // Вычисление оставшегося времени
+                    if (startTime === null) {
+                        startTime = new Date();
+                    }
+                    const currentTime = new Date();
+                    const elapsedTime = (currentTime - startTime) / 1000; // в секундах
+                    const remainingTime = (elapsedTime / (loaded / total)) - elapsedTime; // оставшееся время
+                    remainingTimeDisplay.textContent = `Оставшееся время: ${remainingTime >= 0 ? Math.ceil(remainingTime) + ' секунд' : 'завершено!'}`;
+                }
+            };
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                progress.style.display = 'none'; // Скрыть индикатор после загрузки
+                remainingTimeDisplay.textContent = 'Загрузка завершена!';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+</body>
+</html>
