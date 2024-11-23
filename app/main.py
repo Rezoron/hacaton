@@ -12,15 +12,17 @@ app = FastAPI()
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...)):
-    filename = ''.join(file.filename.split('.')[:-1])
+    file_name_data = file.filename.split('.')
 
-    if not os.path.isdir(os.path.join("uploads", filename)):
-        os.makedirs(f"uploads/{filename}")
+    file_name = '.'.join(file_name_data[:-1])
+
+    if not os.path.isdir(os.path.join("uploads", file_name)):
+        os.makedirs(f"uploads/{file_name}")
     
-    with open(f"uploads/{filename}/{file.filename}", "wb") as f:
+    with open(f"uploads/{file_name}/{file.filename}", "wb") as f:
         f.write(await file.read())
         
-    asyncio.create_task(init_file(filensme, file.size, f"uploads/{filename}/{file.filename}",f"uploads/{filename}/{file.filename}"))
+    asyncio.create_task(init_file(file_name_data, file.size,))
     
     return {"filename": file.filename}
 
