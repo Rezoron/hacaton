@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container-img">
         {% for img_data in imgs %}
-            <div class="sending">
-                <img src="{{ img_data['url'] }}" id="{{ img_data['id'] }}"/>
+            <div class="img">
+                <img src="{{ 'http://127.0.0.1:8000/'+img_data['url'] }}" id="{{ img_data['id'] }}" alt="{{ 'http://127.0.0.1:8000'+img_data['url'] }}"/>
             </div>
         {% endfor %}
     </div>

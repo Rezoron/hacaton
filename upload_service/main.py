@@ -47,5 +47,5 @@ async def create_upload_file(file: UploadFile = File(...)):
 async def get_list_img():
     list = []
     for i in os.listdir('uploads'):
-        list.append({'url': f'uploads/{i}/1/{i}.jpeg', 'id': i})
+        list.append({'url': f'uploads/{i}/1/part_0_0.jpeg', 'id': i})
     return list

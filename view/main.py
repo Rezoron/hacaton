@@ -3,7 +3,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 import requests
-import json
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -23,7 +22,7 @@ async def about(request: Request):
 
 @app.get("/list", response_class=HTMLResponse)
 async def about(request: Request):
-    if (request := requests.get("127.0.0.1:8000/listitem")).status_code == 200:
-        return templates.TemplateResponse("list.html", {"request": request, 'imgs': json.load(request.json())})
+    if (request_service := requests.get("http://127.0.0.1:8000/listitem")).status_code == 200:
+        return templates.TemplateResponse("list.html", {"request": request, 'imgs': request_service.json()})
     else:
-        return templates.TemplateResponse("list.html", {"request": request})
+        return templates.TemplateResponse("404.html", {"request": request})
