@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xakaton</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <!-- Верхнее меню -->
+    <header>
+        <div class="logo">WhiteHeart</div>
+        <div class="menu">
+            <a href="/list"><i class="fas fa-home"></i>Архив</a>
+            <a href="/"><i class="fas fa-upload"></i>Загрузить</a>
+            <a href="/about"><i class="fas fa-info-circle"></i>О нас</a>
+            <button id="theme-toggle" style="z-index: 999;">Сменить тему</button>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+</body>
