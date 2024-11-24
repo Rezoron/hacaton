@@ -1,3 +1,4 @@
+
 {
     // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
     // Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
@@ -5,12 +6,27 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Отладчик Python: FastAPI",
+            "name": "Отладчик Python: FastAPI view",
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "app.main:app",
+                "view.main:app",
+                "--port",
+                "8080",
+                "--reload"
+            ],
+            "jinja": true
+        },
+        {
+            "name": "Отладчик Python: FastAPI back",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "view.main:app",
+                "--port",
+                "8000",
                 "--reload"
             ],
             "jinja": true

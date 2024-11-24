@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Основной контент -->
+<div class="container">
+        <h2>Отправить изображение</h2>
+        <div class="sending">
+            <label class="file-upload" id="responseMessage" for="uploadButton">Выберите файл</label>
+            <input type="file" id="uploadButton" name="image_da" accept="image/*">
+            <div id="progress">
+                <div id="progressBar"></div>
+            </div>
+            <div id="remainingTime"></div>
+
+            <br>
+            <button id="uploadButton" type="submit">Отправть</button>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+<div id="responseMessage"></div>
+<script>
+    const button = document.getElementById('theme-toggle');
+    button.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        document.body.classList.toggle('light-theme');
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('fileInput');
+        fileInput.addEventListener('change', function(event) {
+            const files = event.target.files; // Теперь это безопасно
+            console.log(files)
+            if (files) {
+                console.log(files);
+            }
+        });
+    });
+    window.onload = function() {
+        document.getElementById('uploadButton').addEventListener('click', function () {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0]; // Получаем выбранный файл
+            console.log(fileInput)
+            if (!file) {
+                alert('Пожалуйста, выберите файл для загрузки.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file); // Добавляем файл в FormData
+
+            const xhr = new XMLHttpRequest(); // Создаем новый XMLHttpRequest
+            xhr.open('POST', 'http://127.0.0.1:8000/uploadfile', true); // Указываем метод и URL сервера
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    document.getElementById('responseMessage').innerText = 'Файл успешно загружен!';
+                } else {
+                    document.getElementById('responseMessage').innerText = 'Ошибка загрузки файла.';
+                }
+            };
+
+            xhr.onerror = function () {
+                document.getElementById('responseMessage').innerText = 'Ошибка сети.';
+            };
+
+            xhr.send(formData); // Отправляем данные на сервер
+        });
+    }
+</script>
+{% endblock %}
