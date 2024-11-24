@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request, staticfiles
+from fastapi import FastAPI, Request, staticfiles, File
+from fastapi import UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
@@ -26,3 +27,11 @@ async def about(request: Request):
         return templates.TemplateResponse("list.html", {"request": request, 'imgs': request_service.json()})
     else:
         return templates.TemplateResponse("404.html", {"request": request})
+
+
+@app.get("/api/upload")
+async def about(file: UploadFile = File(...)):
+    if (request_service := requests.get("http://127.0.0.1:8000/listitem", files=file)).status_code == 200:
+        return templates.TemplateResponse("list.html", {'imgs': request_service.json()})
+    else:
+        return templates.TemplateResponse("404.html")

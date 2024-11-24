@@ -2,7 +2,6 @@ from fastapi import FastAPI, File, UploadFile, staticfiles
 from .utils import init_file
 import asyncio
 from pydantic import BaseModel
-from typing import List
 import os
 
 
